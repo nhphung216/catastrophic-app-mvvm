@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.phung.catastrophicapp.databinding.ActivityMainBinding
+import com.phung.catastrophicapp.utils.IntentKey
 import com.phung.catastrophicapp.viewmodel.CatViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = CatImageAdapter { imageUrl ->
             val intent = Intent(this, ImageDetailActivity::class.java)
-            intent.putExtra("image_url", imageUrl)
+            intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
             startActivity(intent)
         }
 

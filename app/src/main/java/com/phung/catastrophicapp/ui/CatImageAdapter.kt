@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -13,7 +15,19 @@ import com.phung.catastrophicapp.domain.model.CatImage
 
 @SuppressLint("NotifyDataSetChanged")
 class CatImageAdapter(private val onItemClick: (String) -> Unit) :
-    RecyclerView.Adapter<CatImageAdapter.CatImageViewHolder>() {
+    ListAdapter<CatImage, CatImageAdapter.CatImageViewHolder>(CatDiffCallback()) {
+
+    class CatDiffCallback : DiffUtil.ItemCallback<CatImage>() {
+        override fun areItemsTheSame(oldItem: CatImage, newItem: CatImage): Boolean {
+            // Compare items by their unique ID
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: CatImage, newItem: CatImage): Boolean {
+            // Compare all relevant fields of the data class to determine if the contents are the same
+            return oldItem == newItem
+        }
+    }
 
     private val catImages = mutableListOf<CatImage>()
 

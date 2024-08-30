@@ -12,5 +12,5 @@ interface CatImageDao {
     suspend fun insertAll(catImages: List<CatImage>)
 
     @Query("SELECT * FROM cat_images LIMIT :limit OFFSET :page")
-    fun getAllCatImages(limit: Int, page: Int): List<CatImage>
+    suspend fun getAllCatImages(limit: Int, page: Int): List<CatImage>
 }

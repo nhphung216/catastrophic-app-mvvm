@@ -1,7 +1,10 @@
 package com.phung.catastrophicapp.ui
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: CatImageAdapter
 
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+    private var scaleFactor = 1.0f
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,6 +52,29 @@ class MainActivity : AppCompatActivity() {
 
             // Reload data when pull-to-refresh is triggered
             viewModel.refreshData()
+        }
+
+        // Initialize ScaleGestureDetector
+        scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
+
+        // Set touch listener on RecyclerView to detect scale gestures
+        binding.catRecyclerView.setOnTouchListener { v, event ->
+            scaleGestureDetector.onTouchEvent(event)
+            false
+        }
+    }
+
+    inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            scaleFactor *= detector.scaleFactor
+            scaleFactor = scaleFactor.coerceIn(0.5f, 3.0f) // Restrict the scale factor range
+
+            // Apply scale factor to RecyclerView
+            binding.catRecyclerView.scaleX = scaleFactor
+            binding.catRecyclerView.scaleY = scaleFactor
+
+            return true
         }
     }
 

@@ -25,11 +25,17 @@ class CatRepositoryTest {
     }
 
     @Test
-    fun testFetchCatImagesFromApi() = runBlocking {
-        // mock data
-        val catImages = listOf<CatImage>()
+    fun testFetchCatImages() = runBlocking {
+        // mock list data
+        val catImages = listOf(
+            CatImage(id = "1ds", url = "https://cdn2.thecatapi.com/images/1ds.png")
+        )
+        Mockito.`when`(apiService.getCatImages(20, 1)).thenReturn(catImages)
 
         // call api
         catRepository.fetchCatImages(1)
+
+        // verify data is inserted into room database
+        Mockito.verify(catImageDao).insertAll(catImages)
     }
 }

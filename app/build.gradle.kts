@@ -40,15 +40,23 @@ android {
 }
 
 dependencies {
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    // koin
+    implementation("io.insert-koin:koin-android:3.5.3")
+
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
+    implementation("com.squareup.retrofit2:adapter-rxjava3:2.10.0")
 
     // room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-//    implementation("androidx.room:room-paging:2.6.1")
+    implementation("androidx.room:room-paging:2.6.1")
     implementation("androidx.paging:paging-runtime-ktx:3.3.2")
 
     implementation(libs.androidx.core.ktx)

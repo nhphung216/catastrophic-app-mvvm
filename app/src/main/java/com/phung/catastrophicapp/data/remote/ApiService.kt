@@ -11,5 +11,5 @@ interface ApiService {
         @Query("limit") limit: Int,
         @Query("page") page: Int,
         @Query("mime_types") mimeTypes: String = "png"
-    ): List<CatImage>
+    ): ArrayList<CatImage>
 }

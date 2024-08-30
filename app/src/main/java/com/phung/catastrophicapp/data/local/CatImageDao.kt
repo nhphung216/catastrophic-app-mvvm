@@ -1,6 +1,5 @@
 package com.phung.catastrophicapp.data.local
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,6 +11,6 @@ interface CatImageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(catImages: List<CatImage>)
 
-    @Query("SELECT * FROM cat_images")
-    fun getAllCatImages(): PagingSource<Int, CatImage>
+    @Query("SELECT * FROM cat_images LIMIT :limit OFFSET :page")
+    fun getAllCatImages(limit: Int, page: Int): List<CatImage>
 }

@@ -3,6 +3,7 @@ package com.phung.catastrophicapp.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ActivityImageDetailBinding
 import com.phung.catastrophicapp.utils.IntentKey
@@ -23,6 +24,8 @@ class ImageDetailActivity : AppCompatActivity() {
         // Load the image into the PhotoView for zoom functionality
         Glide.with(this)
             .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.cat_paw)
             .into(binding.photoView)
     }
 }

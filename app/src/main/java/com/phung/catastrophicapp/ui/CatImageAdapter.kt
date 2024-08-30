@@ -1,14 +1,17 @@
 package com.phung.catastrophicapp.ui
 
+import android.annotation.SuppressLint
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ViewItemCatImageBinding
 import com.phung.catastrophicapp.domain.model.CatImage
 
+@SuppressLint("NotifyDataSetChanged")
 class CatImageAdapter(private val onItemClick: (String) -> Unit) :
     RecyclerView.Adapter<CatImageAdapter.CatImageViewHolder>() {
 
@@ -39,6 +42,12 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
         notifyItemRangeInserted(startPosition, newImages.size)
     }
 
+    fun setCatImages(newImages: List<CatImage>) {
+        catImages.clear()
+        catImages.addAll(newImages)
+        notifyDataSetChanged()
+    }
+
     class CatImageViewHolder(private val binding: ViewItemCatImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -58,6 +67,7 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
         fun bind(catImage: CatImage) {
             Glide.with(binding.imageView.context)
                 .load(catImage.url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.cat_paw)
                 .into(binding.imageView)
         }

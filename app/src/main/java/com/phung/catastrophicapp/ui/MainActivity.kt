@@ -2,6 +2,7 @@ package com.phung.catastrophicapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,29 +25,51 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        adapter = CatImageAdapter { imageUrl ->
-            val intent = Intent(this, ImageDetailActivity::class.java)
-            intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
-            startActivity(intent)
-        }
+        adapter = CatImageAdapter { openImageDetail(it) }
 
         // Set up RecyclerView with GridLayoutManager
         binding.catRecyclerView.layoutManager = GridLayoutManager(this, 3)
         binding.catRecyclerView.adapter = adapter
 
         // Observe the cat images from the ViewModel
-        observeCatImages()
+        observeDatas()
 
         // Load initial data
         viewModel.loadCatImages(viewModel.currentPage)
 
         // Set up scrolling for load more
         setUpScrollListener(binding.catRecyclerView)
+
+        // Set up SwipeRefreshLayout
+        binding.swipeRefreshLayout.setOnRefreshListener {
+
+            // Reload data when pull-to-refresh is triggered
+            viewModel.refreshData()
+        }
     }
 
-    private fun observeCatImages() {
+    private fun openImageDetail(imageUrl: String) {
+        val intent = Intent(this, ImageDetailActivity::class.java)
+        intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
+        startActivity(intent)
+    }
+
+    private fun observeDatas() {
         viewModel.catImages.observe(this) { catImages ->
-            adapter.addCatImages(catImages)
+            // Stop the refreshing animation once data is loaded
+            binding.swipeRefreshLayout.isRefreshing = false
+
+            // If the user pulls the refresh successfully, clear the data list.
+            if (viewModel.isRefreshData) {
+                viewModel.isRefreshData = false
+                adapter.setCatImages(catImages)
+            } else {
+                adapter.addCatImages(catImages)
+            }
+        }
+
+        viewModel.isLoadingMore.observe(this) {
+            binding.loadingProgressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
     }
 

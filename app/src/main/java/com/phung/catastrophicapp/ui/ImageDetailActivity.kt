@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ActivityImageDetailBinding
+import com.phung.catastrophicapp.extensions.addOnBackPressedDispatcher
 import com.phung.catastrophicapp.utils.IntentKey
 
 class ImageDetailActivity : AppCompatActivity() {
@@ -16,7 +17,6 @@ class ImageDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.overridePendingTransition(R.anim.zoom_in, R.anim.zoom_out)
         binding = ActivityImageDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -34,5 +34,10 @@ class ImageDetailActivity : AppCompatActivity() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.drawable.cat_paw)
             .into(binding.photoView)
+
+        addOnBackPressedDispatcher {
+            finish()
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.phung.catastrophicapp.ui
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ActivityMainBinding
 import com.phung.catastrophicapp.utils.IntentKey
 import com.phung.catastrophicapp.viewmodel.CatViewModel
@@ -53,35 +53,13 @@ class MainActivity : AppCompatActivity() {
             // Reload data when pull-to-refresh is triggered
             viewModel.refreshData()
         }
-
-//        // Initialize ScaleGestureDetector
-//        scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
-//
-//        // Set touch listener on RecyclerView to detect scale gestures
-//        binding.catRecyclerView.setOnTouchListener { v, event ->
-//            scaleGestureDetector.onTouchEvent(event)
-//            false
-//        }
     }
-
-//    inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-//
-//        override fun onScale(detector: ScaleGestureDetector): Boolean {
-//            scaleFactor *= detector.scaleFactor
-//            scaleFactor = scaleFactor.coerceIn(0.5f, 3.0f) // Restrict the scale factor range
-//
-//            // Apply scale factor to RecyclerView
-//            binding.catRecyclerView.scaleX = scaleFactor
-//            binding.catRecyclerView.scaleY = scaleFactor
-//
-//            return true
-//        }
-//    }
 
     private fun openImageDetail(imageUrl: String) {
         val intent = Intent(this, ImageDetailActivity::class.java)
         intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
         startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     private fun observeDatas() {

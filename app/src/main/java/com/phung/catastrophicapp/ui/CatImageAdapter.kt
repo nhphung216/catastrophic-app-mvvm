@@ -91,9 +91,6 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.cat_paw)
                 .into(binding.imageView)
-
-            // test id
-            binding.catId.text = catImage.id
         }
     }
 }

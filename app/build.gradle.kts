@@ -40,27 +40,29 @@ android {
 }
 
 dependencies {
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(libs.androidx.swiperefreshlayout)
 
-    implementation("com.github.chrisbanes:PhotoView:2.3.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.photoview)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.glide)
+    kapt(libs.compiler)
+
     // koin
-    implementation("io.insert-koin:koin-android:3.5.3")
+    implementation(libs.koin.android)
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.10.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.adapter.rxjava3)
 
     // room
-    implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.room:room-paging:2.6.1")
-    implementation("androidx.paging:paging-runtime-ktx:3.3.2")
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.runtime.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -72,8 +74,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    testImplementation("androidx.test:core:1.6.1")
-    testImplementation("org.mockito:mockito-core:4.6.1")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation(libs.androidx.core)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 }

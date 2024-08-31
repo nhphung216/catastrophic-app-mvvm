@@ -1,8 +1,8 @@
 package com.phung.catastrophicapp.data.repository
 
 import android.content.Context
-import com.phung.catastrophicapp.data.local.CatImageDao
-import com.phung.catastrophicapp.data.remote.ApiService
+import com.phung.catastrophicapp.data.local.dao.CatImageDao
+import com.phung.catastrophicapp.data.network.ApiService
 import com.phung.catastrophicapp.domain.model.CatImage
 import com.phung.catastrophicapp.domain.repository.CatRepository
 import com.phung.catastrophicapp.utils.isInternetAvailable
@@ -13,20 +13,24 @@ class CatRepositoryImpl(
     private val context: Context
 ) : CatRepository {
 
-    // Method to fetch data from API
+    // Method to fetch data from API and local
     override suspend fun getCatImages(limit: Int, page: Int): List<CatImage> {
-        return try {
-            if (isInternetAvailable(context)) {
-                val response = apiService.getCatImages(limit, page)
-                // Save to Room
-                catImageDao.insertAll(response)
-                response
-            } else {
-                // page * limit = OFFSET
-                catImageDao.getAllCatImages(limit, page * limit)
+        return if (isInternetAvailable(context)) {
+            try {
+                val catImageResponseList = apiService.getCatImages(limit, page)
+
+                // save data to room
+                catImageDao.insertAll(catImageResponseList.map { it.toEntity() })
+
+                // return data display UI
+                catImageResponseList.map { it.toDomain() }
+            } catch (e: Exception) {
+                // get data from local
+                catImageDao.getAllCatImages(limit, page * limit).map { it.toDomain() }
             }
-        } catch (e: Exception) {
-            listOf()
+        } else {
+            // get data from local
+            catImageDao.getAllCatImages(limit, page * limit).map { it.toDomain() }
         }
     }
 }

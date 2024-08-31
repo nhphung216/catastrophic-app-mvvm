@@ -1,8 +1,9 @@
 package com.phung.catastrophicapp
 
 import android.content.Context
-import com.phung.catastrophicapp.data.local.CatImageDao
-import com.phung.catastrophicapp.data.remote.ApiService
+import com.phung.catastrophicapp.data.local.dao.CatImageDao
+import com.phung.catastrophicapp.data.network.ApiService
+import com.phung.catastrophicapp.data.network.models.CatImageResponse
 import com.phung.catastrophicapp.data.repository.CatRepositoryImpl
 import com.phung.catastrophicapp.domain.model.CatImage
 import kotlinx.coroutines.runBlocking
@@ -34,7 +35,7 @@ class CatRepositoryTest {
     fun testFetchCatImages() = runBlocking {
         // mock list data
         val catImages = listOf(
-            CatImage(id = "1ds", url = "https://cdn2.thecatapi.com/images/1ds.png")
+            CatImageResponse(id = "1ds", url = "https://cdn2.thecatapi.com/images/1ds.png")
         )
         Mockito.`when`(apiService.getCatImages(20, 1)).thenReturn(catImages)
 
@@ -42,6 +43,6 @@ class CatRepositoryTest {
         catRepository.getCatImages(20, 1)
 
         // verify data is inserted into room database
-        Mockito.verify(catImageDao).insertAll(catImages)
+        Mockito.verify(catImageDao).insertAll(catImages.map { it.toEntity() })
     }
 }

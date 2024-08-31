@@ -2,7 +2,7 @@ package com.phung.catastrophicapp.di
 
 import androidx.room.Room
 import com.phung.catastrophicapp.data.local.CatImageDatabase
-import com.phung.catastrophicapp.data.remote.ApiService
+import com.phung.catastrophicapp.data.network.ApiService
 import com.phung.catastrophicapp.data.repository.CatRepositoryImpl
 import com.phung.catastrophicapp.domain.repository.CatRepository
 import com.phung.catastrophicapp.utils.EVNConfigs

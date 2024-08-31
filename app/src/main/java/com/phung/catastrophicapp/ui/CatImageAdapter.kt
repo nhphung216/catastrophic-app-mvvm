@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ViewItemCatImageBinding
 import com.phung.catastrophicapp.domain.model.CatImage
@@ -81,9 +83,17 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
         fun bind(catImage: CatImage) {
             Glide.with(binding.imageView.context)
                 .load(catImage.url)
+                .transition(
+                    withCrossFade(
+                        DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+                    )
+                )
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.cat_paw)
                 .into(binding.imageView)
+
+            // test id
+            binding.catId.text = catImage.id
         }
     }
 }

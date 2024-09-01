@@ -1,11 +1,11 @@
 package com.phung.catastrophicapp.di
 
 import androidx.room.Room
+import com.phung.catastrophicapp.BuildConfig
 import com.phung.catastrophicapp.data.local.CatImageDatabase
 import com.phung.catastrophicapp.data.network.ApiService
 import com.phung.catastrophicapp.data.repository.CatRepositoryImpl
 import com.phung.catastrophicapp.domain.repository.CatRepository
-import com.phung.catastrophicapp.utils.EVNConfigs
 import com.phung.catastrophicapp.viewmodel.CatViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -25,7 +25,7 @@ val appModule = module {
         val headersInterceptor = Interceptor { chain ->
             val original: Request = chain.request()
             val newBuilder = original.newBuilder()
-                .addHeader("x-api-key", EVNConfigs.API_KEY)
+                .addHeader("x-api-key", BuildConfig.CAT_API_KEY)
             val request = newBuilder.method(original.method, original.body).build()
             val response = chain.proceed(request)
             response
@@ -43,7 +43,7 @@ val appModule = module {
             .build()
 
         Retrofit.Builder()
-            .baseUrl(EVNConfigs.SERVER_URL)
+            .baseUrl(BuildConfig.SERVER_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

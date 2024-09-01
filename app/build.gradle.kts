@@ -16,6 +16,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val catApiKey: String = project.findProperty("THE_CAT_API_KEY") as String
+        buildConfigField("String", "CAT_API_KEY", "\"$catApiKey\"")
+
+        val serverUrl: String = project.findProperty("SERVER_URL") as String
+        buildConfigField("String", "SERVER_URL", "\"$serverUrl\"")
     }
 
     buildTypes {
@@ -36,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     testOptions { packaging { resources.excludes.add("META-INF/*") } }
 }
@@ -62,8 +69,6 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.paging)
-    implementation(libs.androidx.paging.runtime.ktx)
     testImplementation(libs.androidx.room.testing)
 
     // default
@@ -76,7 +81,6 @@ dependencies {
 
     // testing
     androidTestImplementation(libs.androidx.espresso.core)
-//    testImplementation(libs.androidx.runner)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit)

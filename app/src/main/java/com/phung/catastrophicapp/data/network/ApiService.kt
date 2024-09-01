@@ -10,6 +10,6 @@ interface ApiService {
     suspend fun getCatImages(
         @Query("limit") limit: Int,
         @Query("page") page: Int,
-        @Query("mime_types") mimeTypes: String = "png"
+        @Query("mime_types") mimeTypes: String = "jpg,png"
     ): List<CatImageResponse>
 }

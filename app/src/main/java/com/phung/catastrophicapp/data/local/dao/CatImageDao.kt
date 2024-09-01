@@ -13,7 +13,4 @@ interface CatImageDao {
 
     @Query("SELECT * FROM cat_images LIMIT :limit OFFSET :page")
     suspend fun getCatImages(limit: Int, page: Int): List<CatImageEntity>
-
-    @Query("DELETE FROM cat_images")
-    suspend fun clearAll()
 }

@@ -76,8 +76,7 @@ dependencies {
 
     // testing
     androidTestImplementation(libs.androidx.espresso.core)
-    testImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.truth)
+//    testImplementation(libs.androidx.runner)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit)
@@ -100,18 +99,6 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.mockito.kotlin)
 
-    implementation("org.mockito:mockito-android:5.13.0")
-
-    // JUnit 4 for testing
-    testImplementation("junit:junit:4.13.2")
-
-    // MockK for mocking
-    androidTestImplementation("io.mockk:mockk:1.13.7")
-    testImplementation("io.mockk:mockk:1.13.7")
-
-    // AndroidX Core Testing for LiveData testing
-    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-
-    testImplementation("org.robolectric:robolectric:4.10.3")
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.androidx.espresso.intents)
 }

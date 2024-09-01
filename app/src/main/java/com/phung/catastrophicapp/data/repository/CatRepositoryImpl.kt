@@ -26,11 +26,11 @@ class CatRepositoryImpl(
                 catImageResponseList.map { it.toDomain() }
             } catch (e: Exception) {
                 // get data from local
-                catImageDao.getAllCatImages(limit, page * limit).map { it.toDomain() }
+                catImageDao.getCatImages(limit, page * limit).map { it.toDomain() }
             }
         } else {
             // get data from local
-            catImageDao.getAllCatImages(limit, page * limit).map { it.toDomain() }
+            catImageDao.getCatImages(limit, page * limit).map { it.toDomain() }
         }
     }
 }

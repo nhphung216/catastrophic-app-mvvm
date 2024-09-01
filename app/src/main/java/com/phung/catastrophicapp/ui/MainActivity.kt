@@ -3,7 +3,6 @@ package com.phung.catastrophicapp.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: CatViewModel by viewModel()
 
     private lateinit var adapter: CatImageAdapter
-
-    private lateinit var scaleGestureDetector: ScaleGestureDetector
-    private var scaleFactor = 1.0f
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {

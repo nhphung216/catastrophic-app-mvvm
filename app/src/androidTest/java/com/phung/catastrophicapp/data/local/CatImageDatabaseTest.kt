@@ -1,9 +1,8 @@
-package com.phung.catastrophicapp
+package com.phung.catastrophicapp.data.local
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.phung.catastrophicapp.data.local.CatImageDatabase
 import com.phung.catastrophicapp.data.local.dao.CatImageDao
 import com.phung.catastrophicapp.data.local.entities.CatImageEntity
 import kotlinx.coroutines.test.runTest

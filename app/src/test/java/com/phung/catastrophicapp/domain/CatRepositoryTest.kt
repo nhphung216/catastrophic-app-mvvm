@@ -1,4 +1,4 @@
-package com.phung.catastrophicapp
+package com.phung.catastrophicapp.domain
 
 import android.content.Context
 import com.phung.catastrophicapp.data.local.dao.CatImageDao
@@ -39,7 +39,7 @@ class CatRepositoryTest {
         val limit = 20
         val page = 0
         // Given
-        val catImages = List(20) { i ->
+        val catImages = List(10) { i ->
             CatImageEntity(
                 id = "$i",
                 url = "https://cdn2.thecatapi.com/images/1ds$i.png"

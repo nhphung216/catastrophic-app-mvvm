@@ -1,4 +1,4 @@
-package com.phung.catastrophicapp
+package com.phung.catastrophicapp.ui
 
 import android.os.SystemClock
 import androidx.recyclerview.widget.RecyclerView
@@ -8,13 +8,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.phung.catastrophicapp.ui.ImageDetailActivity
-import com.phung.catastrophicapp.ui.MainActivity
+import com.phung.catastrophicapp.R
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

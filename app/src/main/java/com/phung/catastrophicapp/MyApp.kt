@@ -3,6 +3,7 @@ package com.phung.catastrophicapp
 import android.app.Application
 import com.phung.catastrophicapp.di.appModule
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class MyApp : Application() {
@@ -11,7 +12,8 @@ class MyApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MyApp)
-            modules(listOf(appModule))
+            androidLogger()
+            modules(appModule)
         }
     }
 }

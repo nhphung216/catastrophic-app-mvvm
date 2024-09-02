@@ -56,7 +56,11 @@ dependencies {
     kapt(libs.compiler)
 
     // koin
+    implementation(libs.koin.core)
     implementation(libs.koin.android)
+    androidTestImplementation(libs.koin.test)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
 
     // retrofit
     implementation(libs.retrofit)

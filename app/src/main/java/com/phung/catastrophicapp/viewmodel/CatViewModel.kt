@@ -1,32 +1,32 @@
 package com.phung.catastrophicapp.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.phung.catastrophicapp.domain.model.CatImage
-import com.phung.catastrophicapp.domain.repository.CatRepository
+import com.phung.catastrophicapp.domain.usecase.GetCatImagesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CatViewModel(private val repository: CatRepository) : ViewModel() {
+class CatViewModel(private val getCatImagesUseCase: GetCatImagesUseCase) : ViewModel() {
 
-    private var limit = 20
+    private var limit = 20 // limit each page to 20 images
 
-    var currentPage = 1
-
-    var isLoading = false
+    var currentPage = 1 // default page
 
     var isRefreshData = false
 
-    var catImages: MutableLiveData<MutableList<CatImage>> = MutableLiveData()
-
     // detect show/hide loading view
-    var isLoadingMore: MutableLiveData<Boolean> = MutableLiveData()
+    var isLoading: MutableLiveData<Boolean> = MutableLiveData()
+
+    var error: MutableLiveData<String> = MutableLiveData()
+
+    private val _catImages: MutableLiveData<List<CatImage>> = MutableLiveData()
+    val catImages: LiveData<List<CatImage>> = _catImages
 
     fun loadMoreItems() {
-        isLoadingMore.value = true
-        isLoading = true
         currentPage += 1
         loadCatImages(currentPage)
     }
@@ -38,20 +38,19 @@ class CatViewModel(private val repository: CatRepository) : ViewModel() {
     }
 
     fun loadCatImages(page: Int) {
+        isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Call API to fetch cat images
-                val images = repository.getCatImages(limit, page)
+                val images = getCatImagesUseCase.execute(limit, page)
 
                 withContext(Dispatchers.Main) {
-                    catImages.value = images.toMutableList()
-                    isLoading = false
-                    isLoadingMore.value = false
+                    _catImages.value = images.toMutableList()
+                    isLoading.value = false
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    isLoading = false
-                    isLoadingMore.value = false
+                    isLoading.value = false
+                    error.value = e.message
                 }
             }
         }

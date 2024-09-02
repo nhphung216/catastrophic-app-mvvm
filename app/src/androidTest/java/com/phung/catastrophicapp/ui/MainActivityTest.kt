@@ -58,10 +58,10 @@ class MainActivityTest {
 
     @Test
     fun testClickImageAndOpenImageDetailActivity() {
-        SystemClock.sleep(3000)
-
         // Ensure the RecyclerView is displayed
         onView(withId(R.id.catRecyclerView)).check(matches(isDisplayed()))
+
+        SystemClock.sleep(3000)
 
         // Perform a click on the first item in the RecyclerView
         onView(withId(R.id.catRecyclerView)).perform(

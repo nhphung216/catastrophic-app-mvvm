@@ -21,6 +21,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CATastrophic-MVVM"
+rootProject.name = "CATastrophic"
 include(":app")
  

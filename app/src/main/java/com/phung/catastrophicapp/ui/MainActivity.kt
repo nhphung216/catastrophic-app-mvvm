@@ -1,16 +1,15 @@
 package com.phung.catastrophicapp.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.phung.catastrophicapp.R
 import com.phung.catastrophicapp.databinding.ActivityMainBinding
 import com.phung.catastrophicapp.utils.IntentKey
+import com.phung.catastrophicapp.utils.showAlertDialog
 import com.phung.catastrophicapp.viewmodel.CatViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,13 +21,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: CatImageAdapter
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        // Set up adapter
         adapter = CatImageAdapter { openImageDetail(it) }
 
         // Set up RecyclerView with GridLayoutManager
@@ -48,15 +47,9 @@ class MainActivity : AppCompatActivity() {
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             // Reload data when pull-to-refresh is triggered
+            binding.swipeRefreshLayout.isRefreshing = false
             viewModel.refreshData()
         }
-    }
-
-    private fun openImageDetail(imageUrl: String) {
-        val intent = Intent(this, ImageDetailActivity::class.java)
-        intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
-        startActivity(intent)
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     private fun observeDatas() {
@@ -73,8 +66,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.isLoadingMore.observe(this) {
-            binding.loadingProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.error.observe(this) {
+            showAlertDialog(this, it)
         }
     }
 
@@ -89,12 +86,20 @@ class MainActivity : AppCompatActivity() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                 // Trigger load more when reaching the end of the list
-                if (!viewModel.isLoading && visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                if (viewModel.isLoading.value == false
+                    && visibleItemCount + firstVisibleItemPosition >= totalItemCount
                     && firstVisibleItemPosition >= 0
                 ) {
                     viewModel.loadMoreItems()
                 }
             }
         })
+    }
+
+    private fun openImageDetail(imageUrl: String) {
+        val intent = Intent(this, ImageDetailActivity::class.java)
+        intent.putExtra(IntentKey.IMAGE_URL, imageUrl)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }

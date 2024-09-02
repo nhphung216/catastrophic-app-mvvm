@@ -35,9 +35,13 @@ class ImageDetailActivity : AppCompatActivity() {
             .placeholder(R.drawable.cat_paw)
             .into(binding.photoView)
 
-        addOnBackPressedDispatcher {
-            finish()
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
+        addOnBackPressedDispatcher { doFinish() }
+
+        binding.closeBtn.setOnClickListener { doFinish() }
+    }
+
+    private fun doFinish() {
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }

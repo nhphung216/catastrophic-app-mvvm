@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.CATastrophic" parent="Base.Theme.CATastrophic" />
+
+    <style name="Theme.CATastrophicDark" parent="Base.Theme.CATastrophic">
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
 </resources>

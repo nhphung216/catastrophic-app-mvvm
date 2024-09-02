@@ -27,15 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        // Set up adapter
-        adapter = CatImageAdapter { openImageDetail(it) }
-
-        // Set up RecyclerView with GridLayoutManager
-        binding.catRecyclerView.layoutManager = GridLayoutManager(this, 3)
-        binding.catRecyclerView.adapter = adapter
+        setupRecyclerView()
 
         // Observe the cat images from the ViewModel
-        observeDatas()
+        observeViewModel()
 
         // Load initial data
         viewModel.loadCatImages(viewModel.currentPage)
@@ -52,13 +47,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeDatas() {
+    private fun setupRecyclerView() {
+        // Set up adapter
+        adapter = CatImageAdapter { openImageDetail(it) }
+
+        // Set up RecyclerView with GridLayoutManager
+        binding.catRecyclerView.layoutManager = GridLayoutManager(this, 3)
+        binding.catRecyclerView.adapter = adapter
+    }
+
+    private fun observeViewModel() {
         viewModel.catImages.observe(this) { catImages ->
             // Stop the refreshing animation once data is loaded
             binding.swipeRefreshLayout.isRefreshing = false
-
-            // If the user pulls the refresh successfully, clear the data list.
-            if (viewModel.isRefreshData) {
+            if (adapter.isFirstLoad) {
+                adapter.isFirstLoad = false
+                adapter.setCatImages(catImages)
+            } else if (viewModel.isRefreshData) {
                 viewModel.isRefreshData = false
                 adapter.setCatImages(catImages)
             } else {

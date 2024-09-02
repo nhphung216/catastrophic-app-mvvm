@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.phung.catastrophicapp.R
+import com.phung.catastrophicapp.databinding.ShimmerLayoutBinding
 import com.phung.catastrophicapp.databinding.ViewItemCatImageBinding
 import com.phung.catastrophicapp.domain.model.CatImage
 
@@ -19,25 +20,47 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
 
     private val catImages = mutableListOf<CatImage>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding =
-            ViewItemCatImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CatImageViewHolder(binding)
+    var isFirstLoad = true
+
+    companion object {
+        private const val VIEW_TYPE_SHIMMER = 0
+        private const val VIEW_TYPE_IMAGE = 1
+        private const val SHIMMER_ITEM_COUNT = 20 // Number of shimmer items to display
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is CatImageViewHolder) {
-            holder.bind(catImages[position])
-
-            // Set click listener to open ImageDetailActivity with the selected image URL
-            holder.itemView.setOnClickListener {
-                onItemClick(catImages[position].url)
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_SHIMMER) {
+            val binding = ShimmerLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            ShimmerViewHolder(binding)
+        } else {
+            val binding = ViewItemCatImageBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            CatImageViewHolder(binding)
         }
     }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is CatImageViewHolder && !isFirstLoad) {
+            holder.bind(catImages[position])
+
+            // Set click listener to open ImageDetailActivity with the selected image URL
+            holder.itemView.setOnClickListener { onItemClick(catImages[position].url) }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (isFirstLoad) VIEW_TYPE_SHIMMER else VIEW_TYPE_IMAGE
+    }
+
     override fun getItemCount(): Int {
-        return catImages.size
+        return if (isFirstLoad) SHIMMER_ITEM_COUNT else catImages.size
     }
 
     fun addCatImages(newImages: List<CatImage>) {
@@ -79,6 +102,22 @@ class CatImageAdapter(private val onItemClick: (String) -> Unit) :
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.cat_paw)
                 .into(binding.imageView)
+        }
+    }
+
+    class ShimmerViewHolder(binding: ShimmerLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private val displayMetrics: DisplayMetrics = binding.root.context.resources.displayMetrics
+
+        private val screenWidth = displayMetrics.widthPixels
+
+        // Adjust according to your number of columns
+        private val itemSize = screenWidth / 3
+
+        init {
+            binding.main.layoutParams.width = itemSize
+            binding.main.layoutParams.height = itemSize
         }
     }
 }

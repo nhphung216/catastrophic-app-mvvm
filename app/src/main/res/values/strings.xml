@@ -7,4 +7,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="image_details">Image Details</string>
     <string name="ok">OK</string>
+    <string name="close_image_detail">close image detail</string>
 </resources>

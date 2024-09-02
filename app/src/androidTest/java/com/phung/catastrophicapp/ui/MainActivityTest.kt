@@ -46,6 +46,8 @@ class MainActivityTest {
         // recyclerView should be displayed
         onView(withId(R.id.catRecyclerView)).check(matches(isDisplayed()))
 
+        SystemClock.sleep(5000)
+
         // Scroll to the 20 position in list
         onView(withId(R.id.catRecyclerView))
             .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(19))
@@ -61,7 +63,7 @@ class MainActivityTest {
         // Ensure the RecyclerView is displayed
         onView(withId(R.id.catRecyclerView)).check(matches(isDisplayed()))
 
-        SystemClock.sleep(3000)
+        SystemClock.sleep(5000)
 
         // Perform a click on the first item in the RecyclerView
         onView(withId(R.id.catRecyclerView)).perform(

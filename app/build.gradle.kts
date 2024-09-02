@@ -36,21 +36,20 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
-    testOptions { packaging { resources.excludes.add("META-INF/*") } }
 }
 
 dependencies {
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation(libs.shimmer)
     implementation(libs.androidx.swiperefreshlayout)
 
     implementation(libs.photoview)

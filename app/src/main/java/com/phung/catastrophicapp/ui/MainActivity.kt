@@ -21,6 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: CatImageAdapter
 
+    val readOnlySet: Set<String> = setOf("Alice", "Bob", "Bob", "Charlie")
+
+    val array = arrayOf(1, 2, 3)
+    val arrayList = arrayListOf(1, 2, 3)
+
+    val list = listOf(1, 2, 3)
+    val mutableList = mutableListOf(1, 2, 3)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
